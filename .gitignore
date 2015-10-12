@@ -3,6 +3,9 @@
 *.log
 *.pyc
 *.patch
+*.gcov
+*.gcno
+*.gcda
 .deps
 .libs
 .memdump
@@ -22,6 +25,7 @@ config.log
 config.status
 config.sub
 configure
+coverage.info
 depcomp
 doc/Makefile
 doc/Makefile.in
