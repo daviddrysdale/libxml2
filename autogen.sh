@@ -16,7 +16,17 @@ DIE=0
 	DIE=1
 }
 
-(libtoolize --version) < /dev/null > /dev/null 2>&1 || {
+libtool=`which glibtool 2>/dev/null`
+if test ! -x "$libtool"; then
+  libtool=`which ${LIBTOOL:-libtool}`
+fi
+if test -z "$LIBTOOLIZE"; then
+  # use (g)libtoolize from same location as (g)libtool
+  libtoolize="${libtool}ize"
+else
+  libtoolize=`which $LIBTOOLIZE`
+fi
+(${libtoolize} --version) < /dev/null > /dev/null 2>&1 || {
 	echo
 	echo "You must have libtool installed to compile libxml."
 	echo "Download the appropriate package for your distribution,"
