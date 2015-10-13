@@ -208,6 +208,8 @@ AC_ARG_WITH(lzma,
 ])
 AC_ARG_WITH(coverage,
 [  --with-coverage         build for code coverage with GCC (off)])
+AC_ARG_WITH(asan,
+[  --with-asan             build for AddressSanitizer (off)])
 
 AC_ARG_ENABLE(rebuild-docs,
 [  --enable-rebuild-docs[[=yes/no]]  rebuild some generated docs [[default=no]]])
@@ -1686,6 +1688,17 @@ then
 else
     echo Disabling code coverage for GCC
 fi
+
+if test "$with_asan" = "yes"
+then
+    echo Enabling AddressSanitizer
+    CFLAGS="$CFLAGS -fsanitize=address -DLIBXML_ASAN_BUILD"
+    LDFLAGS="$LDFLAGS -fsanitize=address"
+    WITH_ASAN=1
+else
+    WITH_ASAN=0
+fi
+AM_CONDITIONAL(WITH_ASAN, test "${with_asan}" = "yes")
 
 AC_SUBST(CPPFLAGS)
 AC_SUBST(CFLAGS)

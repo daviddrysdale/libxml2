@@ -206,8 +206,11 @@ runtests:
 	[ -d test   ] || $(LN_S) $(srcdir)/test   .
 	[ -d result ] || $(LN_S) $(srcdir)/result .
 	$(CHECKER) ./runtest$(EXEEXT) && $(CHECKER) ./testrecurse$(EXEEXT) &&$(CHECKER) ./testapi$(EXEEXT) && $(CHECKER) ./testchar$(EXEEXT)&& $(CHECKER) ./testdict$(EXEEXT) && $(CHECKER) ./runxmlconf$(EXEEXT)
+if WITH_ASAN
+else
 	@(if [ "$(PYTHON_SUBDIR)" != "" ] ; then cd python ; \
 	    $(MAKE) tests ; fi)
+endif
 
 check: all runtests
 
