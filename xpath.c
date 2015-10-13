@@ -9125,6 +9125,7 @@ xmlXPathSubstringFunction(xmlXPathParserContextPtr ctxt, int nargs) {
     int i, l, m;
     xmlChar *ret;
 
+    if (ctxt == NULL) return;
     if (nargs < 2) {
 	CHECK_ARITY(2);
     }
