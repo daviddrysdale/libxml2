@@ -247,7 +247,11 @@ static int gen_int(int no, int nr ATTRIBUTE_UNUSED) {
     if (no == 0) return(0);
     if (no == 1) return(1);
     if (no == 2) return(-1);
+#ifdef LIBXML_ASAN_BUILD
+    if (no == 3) return(2);  /* Don't overrun buffers with ASAN */
+#else
     if (no == 3) return(122);
+#endif
     return(-1);
 }
 
