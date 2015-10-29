@@ -263,9 +263,12 @@ UTILS = $(BINDIR)\xmllint.exe\
 	$(BINDIR)\runtest.exe\
 	$(BINDIR)\runsuite.exe\
 	$(BINDIR)\testapi.exe\
+	$(BINDIR)\testchar.exe\
+	$(BINDIR)\testdict.exe\
 	$(BINDIR)\testlimits.exe\
-	$(BINDIR)\testrecurse.exe
-	
+	$(BINDIR)\testrecurse.exe\
+	$(BINDIR)\runxmlconf.exe
+
 !if "$(WITH_THREADS)" == "yes" || "$(WITH_THREADS)" == "ctls" || "$(WITH_THREADS)" == "native"
 UTILS = $(UTILS) $(BINDIR)\testThreadsWin32.exe
 !else if "$(WITH_THREADS)" == "posix"
