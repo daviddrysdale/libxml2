@@ -32,6 +32,8 @@ matrix:
 install:
     - pip install --user 'requests[security]'
     - pip install --user cpp-coveralls
+    - wget https://www.w3.org/XML/Test/xmlts20080827.tar.gz
+    - tar xf xmlts20080827.tar.gz
 before_script:
     - |
          if [ "$TRAVIS_OS_NAME" = "osx" ]; then
