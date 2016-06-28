@@ -1,34 +1,41 @@
 language: c
 sudo: false
+addons:
+    apt:
+        sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise
+        packages:
+            - clang-3.8
 matrix:
     include:
-         - os: linux
-           compiler: gcc
-           env: BUILD_TYPE=normal
-         - os: linux
-           compiler: clang
-           env: BUILD_TYPE=normal
-         - os: linux
-           compiler: gcc
-           env: BUILD_TYPE=coverage
-         - os: linux
-           compiler: clang
-           env: BUILD_TYPE=ubsan
-         - os: linux
-           compiler: clang
-           env: BUILD_TYPE=asan
+#        - os: linux
+#          compiler: gcc
+#          env: BUILD_TYPE=normal
+#        - os: linux
+#          compiler: clang
+#          env: BUILD_TYPE=normal
+#        - os: linux
+#          compiler: gcc
+#          env: BUILD_TYPE=coverage
+#        - os: linux
+#          compiler: clang
+#          env: BUILD_TYPE=ubsan
+#        - os: linux
+#          compiler: clang
+#          env: BUILD_TYPE=asan
          - os: linux
            compiler: clang
            env: BUILD_TYPE=msan
-         - os: linux
-           compiler: clang
-           env: BUILD_TYPE=lsan
-         - os: osx
-           compiler: gcc
-           env: BUILD_TYPE=normal
-         - os: osx
-           compiler: clang
-           env: BUILD_TYPE=normal
+#        - os: linux
+#          compiler: clang
+#          env: BUILD_TYPE=lsan
+#        - os: osx
+#          compiler: gcc
+#          env: BUILD_TYPE=normal
+#        - os: osx
+#          compiler: clang
+#          env: BUILD_TYPE=normal
 install:
     - pip install --user 'requests[security]'
     - pip install --user cpp-coveralls
@@ -70,11 +77,15 @@ before_script:
              export CONFIG_OPTS="--without-python --without-zlib"
              export CFLAGS="-fsanitize=memory -fsanitize-memory-track-origins -g -fno-omit-frame-pointer -O1"
              export LDFLAGS="-fsanitize=memory -fsanitize-memory-track-origins -g -fno-omit-frame-pointer -O1"
-             export MSAN_SYMBOLIZER_PATH=$(which llvm-symbolizer-3.4)
+             export MSAN_SYMBOLIZER_PATH=$(which llvm-symbolizer-3.8)
+             # Force later Clang to work around false positive
+             export CC=clang-3.8
              # Also skip EBCDIC tests that pulls in (uninstrumented) iconv()
              rm test/*ebcdic*.xml
          fi
 script:
+    - which clang
+    - which clang-3.8
     - ./autogen.sh $CONFIG_OPTS && make && make check
     - make C14Ntests Catatests Scripttests HTMLtests ModuleTests Patterntests HTMLPushtests XMLPushtests Regexptests Automatatests SAXtests Schemastests Relaxtests Schematrontests Threadtests Validtests VTimingtests XIncludetests XPathtests XPtrtests
     - |
